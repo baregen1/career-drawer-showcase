@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "motion/react";
 import { X } from "lucide-react";
 import Link from "next/link";
 
@@ -27,64 +27,65 @@ export default function CareerDrawer({ role, onClose }: { role: Role | null; onC
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="fixed inset-0 bg-black/80 backdrop-blur-md z-[500]"
+            className="fixed inset-0 bg-black/90 backdrop-blur-sm z-[500]"
           />
           
           {/* Drawer */}
           <motion.div
-            initial={{ y: "100%" }}
-            animate={{ y: 0 }}
-            exit={{ y: "100%" }}
-            transition={{ type: "spring", damping: 30, stiffness: 300, mass: 0.8 }}
-            className="fixed bottom-0 left-0 right-0 h-[92vh] bg-[#0a0a0a] border-t border-[#1e1e1e] rounded-t-[32px] z-[510] overflow-y-auto"
+            initial={{ x: "100%" }}
+            animate={{ x: 0 }}
+            exit={{ x: "100%" }}
+            transition={{ type: "tween", ease: [0.16, 1, 0.3, 1], duration: 0.6 }}
+            className="fixed top-0 right-0 bottom-0 w-full md:w-[600px] bg-[#0a0a0a] border-l border-[#1c1c1c] z-[510] overflow-y-auto rounded-none shadow-2xl"
           >
-            <div className="max-w-3xl mx-auto px-8 py-12 relative">
+            <div className="px-8 md:px-12 py-16 relative min-h-screen flex flex-col">
               <button 
                 onClick={onClose}
-                className="absolute right-8 top-12 p-3 rounded-full bg-white/5 hover:bg-white/10 transition-colors text-white/50 hover:text-white"
+                className="absolute right-8 top-12 p-2 bg-white/5 hover:bg-white text-white hover:text-black transition-all rounded-none border border-[#1c1c1c]"
               >
-                <X size={24} />
+                <X size={20} />
               </button>
               
-              <div className="mt-8">
-                <div className="flex flex-col gap-4 border-b border-[#1e1e1e] pb-10 mb-12">
-                  <span className="text-[11px] uppercase tracking-[0.25em] text-[#6b6b6b] font-medium">
-                    {role.department} · {role.location} · {role.type}
+              <div className="mt-8 flex-1">
+                <div className="flex flex-col gap-4 border-b border-[#1c1c1c] pb-12 mb-12">
+                  <span className="text-[10px] uppercase tracking-[0.3em] text-[#666] font-black">
+                    {role.department} // {role.location} // {role.type}
                   </span>
-                  <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-white">{role.title}</h2>
+                  <h2 className="text-4xl md:text-5xl font-bold tracking-tighter text-white uppercase leading-none">{role.title}</h2>
                 </div>
                 
-                <div className="space-y-12">
-                  <p className="text-[15px] leading-[1.8] text-[#8a8a8a]">{role.description}</p>
+                <div className="space-y-16">
+                  <p className="text-[16px] leading-[1.6] text-[#888] font-medium">{role.description}</p>
                   
-                  <div className="space-y-6">
-                    <h3 className="text-[11px] uppercase tracking-[0.15em] text-white font-semibold">Responsibilities</h3>
-                    <ul className="space-y-4 list-disc pl-5">
+                  <div className="space-y-8">
+                    <h3 className="text-[10px] uppercase tracking-[0.25em] text-white font-black border-l-2 border-white pl-4">Responsibilities</h3>
+                    <ul className="space-y-6">
                       {role.responsibilities.map((r, i) => (
-                        <li key={i} className="text-[14px] leading-[1.7] text-[#8a8a8a] pl-2">{r}</li>
+                        <li key={i} className="text-[14px] leading-[1.6] text-[#666] border-b border-[#1c1c1c] pb-4 last:border-none">{r}</li>
                       ))}
                     </ul>
                   </div>
 
-                  <div className="space-y-6">
-                    <h3 className="text-[11px] uppercase tracking-[0.15em] text-white font-semibold">Requirements</h3>
-                    <ul className="space-y-4 list-disc pl-5">
+                  <div className="space-y-8">
+                    <h3 className="text-[10px] uppercase tracking-[0.25em] text-white font-black border-l-2 border-white pl-4">Requirements</h3>
+                    <ul className="space-y-6">
                       {role.requirements.map((r, i) => (
-                        <li key={i} className="text-[14px] leading-[1.7] text-[#8a8a8a] pl-2">{r}</li>
+                        <li key={i} className="text-[14px] leading-[1.6] text-[#666] border-b border-[#1c1c1c] pb-4 last:border-none">{r}</li>
                       ))}
                     </ul>
                   </div>
                   
-                  <div className="pt-8 border-t border-[#1e1e1e]">
+                  <div className="pt-12 mt-20 border-t border-[#1c1c1c]">
                     <Link 
                       href={`/apply?role=${role.id}`}
-                      className="block w-full py-5 bg-white text-[#0a0a0a] text-[13px] font-bold uppercase tracking-[0.06em] rounded-sm hover:opacity-90 transition-opacity text-center"
+                      className="block w-full py-6 bg-white text-[#0a0a0a] text-[12px] font-black uppercase tracking-[0.3em] rounded-none hover:bg-[#ccc] transition-colors text-center"
                     >
                       Submit Application
                     </Link>
-                    <p className="text-center text-[11px] text-[#444] mt-4 uppercase tracking-widest">
-                      Designed by Crossware in Ireland
-                    </p>
+                    <div className="flex justify-between items-center mt-8 text-[9px] text-[#444] uppercase tracking-[0.2em] font-bold">
+                      <span>Ref: {role.id.toUpperCase()}</span>
+                      <span>MMXXVI</span>
+                    </div>
                   </div>
                 </div>
               </div>
