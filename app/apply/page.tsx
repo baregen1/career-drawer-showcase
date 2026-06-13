@@ -3,7 +3,7 @@
 import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
-import { ArrowLeft, CheckCircle2 } from "lucide-react";
+import { ArrowLeft } from "lucide-react";
 
 const JOBS = [
   { id: "graphic-designer", title: "Graphic Designer" },
@@ -36,20 +36,20 @@ function ApplyFormContent() {
 
   if (isSubmitted) {
     return (
-      <div className="flex flex-col items-center justify-center py-20 text-center animate-in fade-in duration-700">
-        <div className="w-24 h-24 bg-white/5 rounded-none flex items-center justify-center mb-8 border border-[#1e1e1e]">
-          <CheckCircle2 className="w-12 h-12 text-white" />
-        </div>
-        <h1 className="text-4xl font-bold mb-4 tracking-tight">Application Received</h1>
-        <p className="text-[#6b6b6b] max-w-md mx-auto mb-10 leading-relaxed">
-          Thank you for applying. Our team will review your application and get back to you via email if there's a potential match.
+      <div className="flex flex-col items-center justify-center py-32 text-center animate-in fade-in duration-1000">
+        <h1 className="text-5xl font-bold mb-6 tracking-tighter uppercase leading-none">Submission Received</h1>
+        <p className="text-[#6b6b6b] max-w-md mx-auto mb-12 text-sm uppercase tracking-[0.2em] font-medium leading-relaxed">
+          We'll review your materials and reach out if there's a fit.
         </p>
         <Link 
           href="/"
-          className="px-8 py-4 bg-white text-[#0a0a0a] text-xs font-bold uppercase tracking-widest rounded-none hover:opacity-90 transition-opacity"
+          className="px-12 py-5 bg-white text-[#0a0a0a] text-[10px] font-bold uppercase tracking-[0.3em] rounded-none hover:opacity-90 transition-opacity"
         >
-          Return to Careers
+          Return to Hub
         </Link>
+        <div className="mt-20 text-[9px] text-[#222] uppercase tracking-[0.4em] font-bold">
+          Crossware Recruitment Division
+        </div>
       </div>
     );
   }
