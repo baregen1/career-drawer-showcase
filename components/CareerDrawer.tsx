@@ -1,19 +1,21 @@
 "use client";
 
-import React, { useEffect } from "react";
+import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
-import { useRouter, useSearchParams } from "next/navigation";
 
 interface Role {
   id: string;
   title: string;
+  department: string;
+  location: string;
+  type: string;
   description: string;
+  responsibilities: string[];
+  requirements: string[];
 }
 
 export default function CareerDrawer({ role, onClose }: { role: Role | null; onClose: () => void }) {
-  const router = useRouter();
-  
   return (
     <AnimatePresence>
       {role && (
@@ -24,7 +26,7 @@ export default function CareerDrawer({ role, onClose }: { role: Role | null; onC
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="fixed inset-0 bg-black/60 backdrop-blur-sm z-40"
+            className="fixed inset-0 bg-black/80 backdrop-blur-md z-[500]"
           />
           
           {/* Drawer */}
@@ -32,31 +34,54 @@ export default function CareerDrawer({ role, onClose }: { role: Role | null; onC
             initial={{ y: "100%" }}
             animate={{ y: 0 }}
             exit={{ y: "100%" }}
-            transition={{ type: "spring", damping: 25, stiffness: 200 }}
-            className="fixed bottom-0 left-0 right-0 h-[80vh] bg-[#0a0a0a] border-t border-white/10 rounded-t-[32px] z-50 p-8 shadow-2xl"
+            transition={{ type: "spring", damping: 30, stiffness: 300, mass: 0.8 }}
+            className="fixed bottom-0 left-0 right-0 h-[92vh] bg-[#0a0a0a] border-t border-[#1e1e1e] rounded-t-[32px] z-[510] overflow-y-auto"
           >
-            <div className="max-w-2xl mx-auto relative h-full">
+            <div className="max-w-3xl mx-auto px-8 py-12 relative">
               <button 
                 onClick={onClose}
-                className="absolute right-0 top-0 p-2 rounded-full bg-white/5 hover:bg-white/10 transition-colors"
+                className="absolute right-8 top-12 p-3 rounded-full bg-white/5 hover:bg-white/10 transition-colors text-white/50 hover:text-white"
               >
-                <X size={20} />
+                <X size={24} />
               </button>
               
-              <div className="mt-12">
-                <span className="text-white/40 uppercase tracking-widest text-xs font-semibold">Open Position</span>
-                <h2 className="text-4xl font-bold mt-2 text-white">{role.title}</h2>
+              <div className="mt-8">
+                <div className="flex flex-col gap-4 border-b border-[#1e1e1e] pb-10 mb-12">
+                  <span className="text-[11px] uppercase tracking-[0.25em] text-[#6b6b6b] font-medium">
+                    {role.department} · {role.location} · {role.type}
+                  </span>
+                  <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-white">{role.title}</h2>
+                </div>
                 
-                <div className="mt-8 space-y-6 text-white/70 leading-relaxed">
-                  <p>{role.description}</p>
-                  <div className="space-y-4">
-                    <h3 className="text-white font-medium">About the role</h3>
-                    <p>We are looking for a {role.title} to join our world-class engineering team. You will be responsible for building high-performance, minimalist interfaces that push the boundaries of the modern web.</p>
+                <div className="space-y-12">
+                  <p className="text-[15px] leading-[1.8] text-[#8a8a8a]">{role.description}</p>
+                  
+                  <div className="space-y-6">
+                    <h3 className="text-[11px] uppercase tracking-[0.15em] text-white font-semibold">Responsibilities</h3>
+                    <ul className="space-y-4 list-disc pl-5">
+                      {role.responsibilities.map((r, i) => (
+                        <li key={i} className="text-[14px] leading-[1.7] text-[#8a8a8a] pl-2">{r}</li>
+                      ))}
+                    </ul>
+                  </div>
+
+                  <div className="space-y-6">
+                    <h3 className="text-[11px] uppercase tracking-[0.15em] text-white font-semibold">Requirements</h3>
+                    <ul className="space-y-4 list-disc pl-5">
+                      {role.requirements.map((r, i) => (
+                        <li key={i} className="text-[14px] leading-[1.7] text-[#8a8a8a] pl-2">{r}</li>
+                      ))}
+                    </ul>
                   </div>
                   
-                  <button className="w-full py-4 bg-white text-black font-semibold rounded-2xl hover:bg-white/90 transition-colors">
-                    Apply Now
-                  </button>
+                  <div className="pt-8 border-t border-[#1e1e1e]">
+                    <button className="w-full py-5 bg-white text-[#0a0a0a] text-[13px] font-bold uppercase tracking-[0.06em] rounded-sm hover:opacity-90 transition-opacity">
+                      Submit Application
+                    </button>
+                    <p className="text-center text-[11px] text-[#444] mt-4 uppercase tracking-widest">
+                      Designed by Crossware in Ireland
+                    </p>
+                  </div>
                 </div>
               </div>
             </div>
