@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { X } from "lucide-react";
+import { X, ArrowLeft } from "lucide-react";
 
 interface Role {
   id: string;
@@ -16,13 +16,13 @@ interface Role {
 }
 
 export default function CareerDrawer({ role, onClose }: { role: Role | null; onClose: () => void }) {
-  const [isSubmitted, setIsSubmitted] = useState(false);
+  const [view, setView] = useState<"detail" | "apply" | "success">("detail");
   const [isLoading, setIsLoading] = useState(false);
 
-  // Reset submission state when role changes or drawer closes
+  // Reset view when role changes or drawer closes
   useEffect(() => {
     if (!role) {
-      setIsSubmitted(false);
+      setView("detail");
     }
   }, [role]);
 
@@ -31,7 +31,7 @@ export default function CareerDrawer({ role, onClose }: { role: Role | null; onC
     setIsLoading(true);
     setTimeout(() => {
       setIsLoading(false);
-      setIsSubmitted(true);
+      setView("success");
     }, 1500);
   };
 
@@ -65,114 +65,145 @@ export default function CareerDrawer({ role, onClose }: { role: Role | null; onC
               </button>
               
               <div className="mt-8">
-                {/* Job Details Section */}
-                <div className="flex flex-col gap-4 border-b border-[#1e1e1e] pb-10 mb-12">
-                  <span className="text-[11px] uppercase tracking-[0.25em] text-[#6b6b6b] font-medium">
-                    {role.department} · {role.location} · {role.type}
-                  </span>
-                  <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-white">{role.title}</h2>
-                </div>
-                
-                <div className="space-y-12">
-                  <p className="text-[15px] leading-[1.8] text-[#8a8a8a]">{role.description}</p>
-                  
-                  <div className="space-y-6">
-                    <h3 className="text-[11px] uppercase tracking-[0.15em] text-white font-semibold">Responsibilities</h3>
-                    <ul className="space-y-4 list-disc pl-5">
-                      {role.responsibilities.map((r, i) => (
-                        <li key={i} className="text-[14px] leading-[1.7] text-[#8a8a8a] pl-2">{r}</li>
-                      ))}
-                    </ul>
-                  </div>
+                <AnimatePresence mode="wait">
+                  {view === "detail" && (
+                    <motion.div
+                      key="detail"
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                    >
+                      <div className="flex flex-col gap-4 border-b border-[#1e1e1e] pb-10 mb-12">
+                        <span className="text-[11px] uppercase tracking-[0.25em] text-[#6b6b6b] font-medium">
+                          {role.department} · {role.location} · {role.type}
+                        </span>
+                        <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-white">{role.title}</h2>
+                      </div>
+                      
+                      <div className="space-y-12">
+                        <p className="text-[15px] leading-[1.8] text-[#8a8a8a]">{role.description}</p>
+                        
+                        <div className="space-y-6">
+                          <h3 className="text-[11px] uppercase tracking-[0.15em] text-white font-semibold">Responsibilities</h3>
+                          <ul className="space-y-4 list-disc pl-5">
+                            {role.responsibilities.map((r, i) => (
+                              <li key={i} className="text-[14px] leading-[1.7] text-[#8a8a8a] pl-2">{r}</li>
+                            ))}
+                          </ul>
+                        </div>
 
-                  <div className="space-y-6">
-                    <h3 className="text-[11px] uppercase tracking-[0.15em] text-white font-semibold">Requirements</h3>
-                    <ul className="space-y-4 list-disc pl-5">
-                      {role.requirements.map((r, i) => (
-                        <li key={i} className="text-[14px] leading-[1.7] text-[#8a8a8a] pl-2">{r}</li>
-                      ))}
-                    </ul>
-                  </div>
-                  
-                  {/* Inline Form Section */}
-                  <div className="pt-16 border-t border-[#1e1e1e] mt-16">
-                    {isSubmitted ? (
-                      <motion.div
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        className="py-12 text-center"
-                      >
-                        <p style={{ fontSize: "14px", color: "#66bb99" }}>Application sent. We'll be in touch.</p>
-                        <div className="mt-12">
+                        <div className="space-y-6">
+                          <h3 className="text-[11px] uppercase tracking-[0.15em] text-white font-semibold">Requirements</h3>
+                          <ul className="space-y-4 list-disc pl-5">
+                            {role.requirements.map((r, i) => (
+                              <li key={i} className="text-[14px] leading-[1.7] text-[#8a8a8a] pl-2">{r}</li>
+                            ))}
+                          </ul>
+                        </div>
+                        
+                        <div className="pt-8 border-t border-[#1e1e1e]">
                           <button 
-                            onClick={onClose}
-                            className="px-12 py-5 bg-white text-[#0a0a0a] text-[10px] font-bold uppercase tracking-[0.3em] rounded-none hover:opacity-90 transition-opacity"
+                            onClick={() => setView("apply")}
+                            className="w-full py-5 bg-white text-[#0a0a0a] text-[13px] font-bold uppercase tracking-[0.06em] rounded-sm hover:opacity-90 transition-opacity"
                           >
-                            Close
+                            Submit Application
+                          </button>
+                          <p className="text-center text-[11px] text-[#444] mt-4 uppercase tracking-widest">
+                            Designed by Crossware in Ireland
+                          </p>
+                        </div>
+                      </div>
+                    </motion.div>
+                  )}
+
+                  {view === "apply" && (
+                    <motion.div
+                      key="apply"
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                    >
+                      <button 
+                        onClick={() => setView("detail")}
+                        className="inline-flex items-center gap-2 text-[11px] uppercase tracking-[0.2em] text-[#6b6b6b] hover:text-white transition-colors mb-12"
+                      >
+                        <ArrowLeft size={14} /> Back to Details
+                      </button>
+
+                      <div className="mb-12">
+                        <h2 className="text-3xl font-bold tracking-tight text-white mb-2 uppercase">Apply for this role</h2>
+                        <p className="text-[#6b6b6b] text-sm uppercase tracking-wider">{role.title}</p>
+                      </div>
+
+                      <form onSubmit={handleApplySubmit} className="grid grid-cols-1 gap-px bg-[#1e1e1e] border border-[#1e1e1e]">
+                        <div className="p-8 bg-[#0a0a0a] flex flex-col gap-2">
+                          <label className="text-[10px] uppercase tracking-widest text-[#6b6b6b] font-bold">Full Name</label>
+                          <input 
+                            required
+                            type="text"
+                            placeholder="John Doe"
+                            className="bg-transparent text-white text-lg font-medium border-none outline-none focus:ring-0 w-full placeholder:text-white/10 rounded-none"
+                          />
+                        </div>
+
+                        <div className="p-8 bg-[#0a0a0a] flex flex-col gap-2">
+                          <label className="text-[10px] uppercase tracking-widest text-[#6b6b6b] font-bold">Email Address</label>
+                          <input 
+                            required
+                            type="email"
+                            placeholder="john@example.com"
+                            className="bg-transparent text-white text-lg font-medium border-none outline-none focus:ring-0 w-full placeholder:text-white/10 rounded-none"
+                          />
+                        </div>
+
+                        <div className="p-8 bg-[#0a0a0a] flex flex-col gap-2 min-h-[160px]">
+                          <label className="text-[10px] uppercase tracking-widest text-[#6b6b6b] font-bold">Portfolio / Website</label>
+                          <input 
+                            type="url"
+                            placeholder="https://yourportfolio.com"
+                            className="bg-transparent text-white text-lg font-medium border-none outline-none focus:ring-0 w-full placeholder:text-white/10 rounded-none"
+                          />
+                        </div>
+
+                        <div className="p-8 bg-[#0a0a0a] flex flex-col gap-4">
+                          <label className="text-[10px] uppercase tracking-widest text-[#6b6b6b] font-bold">Resume / CV</label>
+                          <div className="border border-dashed border-white/10 rounded-none p-8 flex flex-col items-center justify-center text-center hover:bg-white/[0.02] transition-colors cursor-pointer group">
+                            <p className="text-sm text-[#8a8a8a] group-hover:text-white transition-colors">Attach PDF</p>
+                          </div>
+                        </div>
+
+                        <div className="p-8 bg-[#0a0a0a] flex flex-col gap-8">
+                          <button 
+                            type="submit"
+                            disabled={isLoading}
+                            className="w-full py-5 bg-white text-[#0a0a0a] text-[13px] font-bold uppercase tracking-[0.2em] rounded-none hover:opacity-90 transition-opacity disabled:opacity-50"
+                          >
+                            {isLoading ? "Sending..." : "Submit Application"}
                           </button>
                         </div>
-                      </motion.div>
-                    ) : (
-                      <div className="animate-in fade-in duration-500">
-                        <div className="mb-12">
-                          <h2 className="text-3xl font-bold tracking-tight text-white mb-2 uppercase">Apply for this role</h2>
-                          <p className="text-[#6b6b6b] text-sm uppercase tracking-wider">{role.title}</p>
-                        </div>
+                      </form>
+                    </motion.div>
+                  )}
 
-                        <form onSubmit={handleApplySubmit} className="grid grid-cols-1 gap-px bg-[#1e1e1e] border border-[#1e1e1e]">
-                          <div className="p-8 bg-[#0a0a0a] flex flex-col gap-2">
-                            <label className="text-[10px] uppercase tracking-widest text-[#6b6b6b] font-bold">Full Name</label>
-                            <input 
-                              required
-                              type="text"
-                              placeholder="John Doe"
-                              className="bg-transparent text-white text-lg font-medium border-none outline-none focus:ring-0 w-full placeholder:text-white/10 rounded-none"
-                            />
-                          </div>
-
-                          <div className="p-8 bg-[#0a0a0a] flex flex-col gap-2">
-                            <label className="text-[10px] uppercase tracking-widest text-[#6b6b6b] font-bold">Email Address</label>
-                            <input 
-                              required
-                              type="email"
-                              placeholder="john@example.com"
-                              className="bg-transparent text-white text-lg font-medium border-none outline-none focus:ring-0 w-full placeholder:text-white/10 rounded-none"
-                            />
-                          </div>
-
-                          <div className="p-8 bg-[#0a0a0a] flex flex-col gap-2 min-h-[160px]">
-                            <label className="text-[10px] uppercase tracking-widest text-[#6b6b6b] font-bold">Portfolio / Website</label>
-                            <input 
-                              type="url"
-                              placeholder="https://yourportfolio.com"
-                              className="bg-transparent text-white text-lg font-medium border-none outline-none focus:ring-0 w-full placeholder:text-white/10 rounded-none"
-                            />
-                          </div>
-
-                          <div className="p-8 bg-[#0a0a0a] flex flex-col gap-4">
-                            <label className="text-[10px] uppercase tracking-widest text-[#6b6b6b] font-bold">Resume / CV</label>
-                            <div className="border border-dashed border-white/10 rounded-none p-8 flex flex-col items-center justify-center text-center hover:bg-white/[0.02] transition-colors cursor-pointer group">
-                              <p className="text-sm text-[#8a8a8a] group-hover:text-white transition-colors">Attach PDF</p>
-                            </div>
-                          </div>
-
-                          <div className="p-8 bg-[#0a0a0a] flex flex-col gap-8">
-                            <button 
-                              type="submit"
-                              disabled={isLoading}
-                              className="w-full py-5 bg-white text-[#0a0a0a] text-[13px] font-bold uppercase tracking-[0.2em] rounded-none hover:opacity-90 transition-opacity disabled:opacity-50"
-                            >
-                              {isLoading ? "Sending..." : "Submit Application"}
-                            </button>
-                          </div>
-                        </form>
+                  {view === "success" && (
+                    <motion.div
+                      key="success"
+                      initial={{ opacity: 0 }}
+                      animate={{ opacity: 1 }}
+                      className="py-32 text-center"
+                    >
+                      <p style={{ fontSize: "14px", color: "#66bb99" }}>Application sent. We'll be in touch.</p>
+                      <div className="mt-12">
+                        <button 
+                          onClick={onClose}
+                          className="px-12 py-5 bg-white text-[#0a0a0a] text-[10px] font-bold uppercase tracking-[0.3em] rounded-none hover:opacity-90 transition-opacity"
+                        >
+                          Close
+                        </button>
                       </div>
-                    )}
-                    <p className="text-center text-[11px] text-[#444] mt-12 uppercase tracking-widest">
-                      Designed by Crossware in Ireland
-                    </p>
-                  </div>
-                </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
               </div>
             </div>
           </motion.div>
