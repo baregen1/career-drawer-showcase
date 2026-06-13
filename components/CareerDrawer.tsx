@@ -3,6 +3,7 @@
 import React from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X } from "lucide-react";
+import Link from "next/link";
 
 interface Role {
   id: string;
@@ -75,9 +76,12 @@ export default function CareerDrawer({ role, onClose }: { role: Role | null; onC
                   </div>
                   
                   <div className="pt-8 border-t border-[#1e1e1e]">
-                    <button className="w-full py-5 bg-white text-[#0a0a0a] text-[13px] font-bold uppercase tracking-[0.06em] rounded-sm hover:opacity-90 transition-opacity">
+                    <Link 
+                      href={`/apply?role=${role.id}`}
+                      className="block w-full py-5 bg-white text-[#0a0a0a] text-[13px] font-bold uppercase tracking-[0.06em] rounded-sm hover:opacity-90 transition-opacity text-center"
+                    >
                       Submit Application
-                    </button>
+                    </Link>
                     <p className="text-center text-[11px] text-[#444] mt-4 uppercase tracking-widest">
                       Designed by Crossware in Ireland
                     </p>
