@@ -36,19 +36,15 @@ function ApplyFormContent() {
 
   if (isSubmitted) {
     return (
-      <div className="flex flex-col items-center justify-center py-32 text-center animate-in fade-in duration-1000">
-        <h1 className="text-5xl font-bold mb-6 tracking-tighter uppercase leading-none">Submission Received</h1>
-        <p className="text-[#6b6b6b] max-w-md mx-auto mb-12 text-sm uppercase tracking-[0.2em] font-medium leading-relaxed">
-          We'll review your materials and reach out if there's a fit.
-        </p>
-        <Link 
-          href="/"
-          className="px-12 py-5 bg-white text-[#0a0a0a] text-[10px] font-bold uppercase tracking-[0.3em] rounded-none hover:opacity-90 transition-opacity"
-        >
-          Return to Hub
-        </Link>
-        <div className="mt-20 text-[9px] text-[#222] uppercase tracking-[0.4em] font-bold">
-          Crossware Recruitment Division
+      <div className="flex flex-col items-center justify-center py-32 text-center animate-in fade-in duration-500">
+        <p style={{ fontSize: "14px", color: "#66bb99" }}>Application sent. We'll be in touch.</p>
+        <div className="mt-12">
+            <Link 
+            href="/"
+            className="px-12 py-5 bg-white text-[#0a0a0a] text-[10px] font-bold uppercase tracking-[0.3em] rounded-none hover:opacity-90 transition-opacity"
+            >
+            Return to Hub
+            </Link>
         </div>
       </div>
     );
@@ -69,7 +65,6 @@ function ApplyFormContent() {
       </header>
 
       <form onSubmit={handleSubmit} className="grid grid-cols-1 md:grid-cols-2 gap-px bg-[#1e1e1e] border border-[#1e1e1e]">
-        {/* Sharp Industrial Panels for /apply only */}
         <div className="md:col-span-1 p-8 bg-[#0a0a0a] flex flex-col gap-2">
           <label className="text-[10px] uppercase tracking-widest text-[#6b6b6b] font-bold">Role Selection</label>
           <select 
