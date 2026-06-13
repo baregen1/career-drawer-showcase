@@ -108,36 +108,36 @@ function CareersContent() {
   return (
     <div className="bg-[#0a0a0a] min-h-screen text-white pt-[80px] pb-[120px]">
       <div className="max-w-[1440px] mx-auto px-6 md:px-[180px]">
-        <header className="mb-16 pb-10 border-b border-[#1e1e1e]">
-          <p className="text-[11px] uppercase tracking-[0.25em] text-[#6b6b6b] mb-4">Join the team</p>
-          <h1 className="text-[36px] font-bold tracking-tight mb-3">Open Roles</h1>
-          <p className="text-[13px] text-[#6b6b6b]">{JOBS.length} open positions</p>
+        <header className="mb-20 pb-12 border-b border-[#1c1c1c]">
+          <p className="text-[11px] uppercase tracking-[0.3em] text-[#666] mb-4 font-bold">RECRUITMENT — 2026</p>
+          <h1 className="text-[48px] font-bold tracking-tighter mb-4 leading-none uppercase">Open Roles</h1>
+          <p className="text-[13px] text-[#666] uppercase tracking-widest">{JOBS.length} positions available</p>
         </header>
 
-        <div className="space-y-14">
+        <div className="space-y-20">
           {Object.entries(grouped).map(([dept, deptJobs]) => (
             <div key={dept} className="flex flex-col gap-4">
-              <h2 className="text-[11px] font-bold uppercase tracking-[0.14em] text-[#6b6b6b] pb-4 border-b border-[#1e1e1e]">
+              <h2 className="text-[10px] font-black uppercase tracking-[0.2em] text-[#444] pb-3 border-b border-[#1c1c1c]">
                 {dept}
               </h2>
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-[2px]">
+              <div className="grid grid-cols-1 md:grid-cols-3 gap-[1px] bg-[#1c1c1c] border border-[#1c1c1c]">
                 {deptJobs.map((job) => (
                   <button
                     key={job.id}
                     onClick={() => openJob(job)}
-                    className="flex flex-col justify-between gap-3 p-6 bg-[#111] hover:bg-[#161616] transition-colors text-left min-h-[160px]"
+                    className="flex flex-col justify-between gap-6 p-8 bg-[#0a0a0a] hover:bg-[#111] transition-colors text-left min-h-[180px] rounded-none group"
                   >
-                    <span className="text-[10px] uppercase tracking-[0.14em] text-[#6b6b6b]">
+                    <span className="text-[9px] uppercase tracking-[0.2em] text-[#666] font-bold group-hover:text-white transition-colors">
                       {job.department}
                     </span>
-                    <span className="text-[18px] font-semibold text-white leading-tight flex-1">
+                    <span className="text-[20px] font-bold text-white leading-tight flex-1 uppercase tracking-tight">
                       {job.title}
                     </span>
                     <div className="flex gap-2 flex-wrap">
-                      <span className="text-[10px] uppercase tracking-[0.08em] text-[#6b6b6b] border border-[#2a2a2a] px-2 py-1">
+                      <span className="text-[9px] uppercase tracking-[0.1em] text-[#444] border border-[#1c1c1c] px-2 py-1 font-bold group-hover:border-[#444] transition-colors">
                         {job.location}
                       </span>
-                      <span className="text-[10px] uppercase tracking-[0.08em] text-[#6b6b6b] border border-[#2a2a2a] px-2 py-1">
+                      <span className="text-[9px] uppercase tracking-[0.1em] text-[#444] border border-[#1c1c1c] px-2 py-1 font-bold group-hover:border-[#444] transition-colors">
                         {job.type}
                       </span>
                     </div>
