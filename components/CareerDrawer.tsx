@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, ArrowLeft } from "lucide-react";
 
@@ -18,6 +18,7 @@ interface Role {
 export default function CareerDrawer({ role, onClose }: { role: Role | null; onClose: () => void }) {
   const [view, setView] = useState<"detail" | "apply" | "success">("detail");
   const [isLoading, setIsLoading] = useState(false);
+  const scrollContainerRef = useRef<HTMLDivElement>(null);
 
   // Reset view when role changes or drawer closes
   useEffect(() => {
@@ -25,6 +26,16 @@ export default function CareerDrawer({ role, onClose }: { role: Role | null; onC
       setView("detail");
     }
   }, [role]);
+
+  // Smooth scroll to top on view change
+  useEffect(() => {
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollTo({
+        top: 0,
+        behavior: "smooth",
+      });
+    }
+  }, [view]);
 
   const handleApplySubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -50,6 +61,7 @@ export default function CareerDrawer({ role, onClose }: { role: Role | null; onC
           
           {/* Drawer */}
           <motion.div
+            ref={scrollContainerRef}
             initial={{ y: "100%" }}
             animate={{ y: 0 }}
             exit={{ y: "100%" }}
