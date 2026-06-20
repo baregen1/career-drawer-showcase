@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useState, useEffect } from "react";
+import React, { createContext, useContext, useEffect, useState } from "react";
 import { MotionConfig } from "framer-motion";
 
 type MotionSetting = "hifi" | "lofi";
@@ -17,12 +17,23 @@ export function MotionProvider({ children }: { children: React.ReactNode }) {
 
   useEffect(() => {
     const saved = localStorage.getItem("motion-setting") as MotionSetting;
-    if (saved) setSetting(saved);
+    if (saved === "hifi" || saved === "lofi") {
+      setSetting(saved);
+      if (saved === "lofi") {
+        document.documentElement.classList.add("disable-motion-effects");
+      }
+    }
   }, []);
 
   const updateSetting = (newSetting: MotionSetting) => {
     setSetting(newSetting);
     localStorage.setItem("motion-setting", newSetting);
+    
+    if (newSetting === "lofi") {
+      document.documentElement.classList.add("disable-motion-effects");
+    } else {
+      document.documentElement.classList.remove("disable-motion-effects");
+    }
   };
 
   return (
