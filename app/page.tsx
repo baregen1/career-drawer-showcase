@@ -150,7 +150,7 @@ function CareersContent() {
         </div>
       </div>
 
-      <footer className="max-w-[1440px] mx-auto px-6 md:px-[180px] mt-24 py-12 border-t border-[#1e1e1e] flex flex-col md:flex-row justify-between items-center gap-8">
+      <footer className="max-w-[1440px] mx-auto px-6 md:px-[180px] mt-24 py-12 border-t border-[#1e1e1e] flex justify-between items-center w-full gap-8">
         <div className="flex flex-col gap-2">
           <p className="text-[11px] text-[#444] uppercase tracking-widest font-bold">Crossware Studios</p>
           <p className="text-[10px] text-[#2a2a2a] uppercase tracking-[0.2em]">© 2026 Ireland</p>
