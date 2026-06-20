@@ -22,6 +22,7 @@ export default function CareerDrawer({ role, onClose }: { role: Role | null; onC
   const [isScrolled, setIsScrolled] = useState(false);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
   const { setting } = useMotion();
+  const isLoFi = setting === "lofi";
 
   // Reset view when role changes or drawer closes
   useEffect(() => {
@@ -36,10 +37,10 @@ export default function CareerDrawer({ role, onClose }: { role: Role | null; onC
     if (scrollContainerRef.current) {
       scrollContainerRef.current.scrollTo({
         top: 0,
-        behavior: setting === "lofi" ? "auto" : "smooth",
+        behavior: isLoFi ? "auto" : "smooth",
       });
     }
-  }, [view, setting]);
+  }, [view, isLoFi]);
 
   const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
     setIsScrolled(e.currentTarget.scrollTop > 10);
@@ -51,7 +52,7 @@ export default function CareerDrawer({ role, onClose }: { role: Role | null; onC
     setTimeout(() => {
       setIsLoading(false);
       setView("success");
-    }, 1500);
+    }, isLoFi ? 0 : 1500);
   };
 
   return (
@@ -64,7 +65,7 @@ export default function CareerDrawer({ role, onClose }: { role: Role | null; onC
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className={`fixed inset-0 bg-black/80 z-[500] ${setting === "lofi" ? "" : "backdrop-blur-md"}`}
+            className={`fixed inset-0 bg-black/80 z-[500] ${isLoFi ? "" : "backdrop-blur-md"}`}
           />
           
           {/* Drawer */}
@@ -74,17 +75,19 @@ export default function CareerDrawer({ role, onClose }: { role: Role | null; onC
             initial={{ y: "100%" }}
             animate={{ y: 0 }}
             exit={{ y: "100%" }}
-            transition={setting === "lofi" ? { duration: 0 } : { type: "spring", damping: 30, stiffness: 300, mass: 0.8 }}
+            transition={isLoFi ? { duration: 0 } : { type: "spring", damping: 30, stiffness: 300, mass: 0.8 }}
             className="fixed bottom-0 left-0 right-0 h-[92vh] bg-[#0a0a0a] border-t border-[#1e1e1e] rounded-t-[32px] z-[510] overflow-y-auto"
           >
             {/* Sticky Header with backdrop blur */}
-            <div className={`sticky top-0 z-20 px-8 py-6 transition-all duration-500 border-b rounded-t-[32px] ${
+            <div className={`sticky top-0 z-20 px-8 py-6 border-b rounded-t-[32px] ${
+              isLoFi ? "transition-none" : "transition-all duration-500"
+            } ${
               isScrolled 
-                ? `bg-[#0a0a0a]/80 border-white/5 ${setting === "lofi" ? "" : "backdrop-blur-md"}` 
+                ? `bg-[#0a0a0a]/80 border-white/5 ${isLoFi ? "" : "backdrop-blur-md"}` 
                 : "bg-transparent border-transparent"
             }`}>
               <div className="max-w-3xl mx-auto flex justify-between items-center">
-                <div className={`flex flex-col transition-opacity duration-300 ${isScrolled ? "opacity-100" : "opacity-0"}`}>
+                <div className={`flex flex-col ${isLoFi ? "transition-none" : "transition-opacity duration-300"} ${isScrolled ? "opacity-100" : "opacity-0"}`}>
                   <span className="text-[10px] uppercase tracking-[0.2em] text-[#6b6b6b] font-bold">
                     {role.department} · {role.location}
                   </span>
