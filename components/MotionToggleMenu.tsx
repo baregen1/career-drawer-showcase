@@ -10,6 +10,17 @@ export default function MotionToggleMenu() {
   const { setting, setSetting } = useMotion();
   const menuRef = useRef<HTMLDivElement>(null);
 
+  // Lock body scroll when open
+  useEffect(() => {
+    if (isOpen) {
+      const originalStyle = window.getComputedStyle(document.body).overflow;
+      document.body.style.overflow = "hidden";
+      return () => {
+        document.body.style.overflow = originalStyle;
+      };
+    }
+  }, [isOpen]);
+
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
       if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
@@ -71,10 +82,8 @@ export default function MotionToggleMenu() {
                 md:absolute md:bottom-full md:left-auto md:right-0 md:mb-4 md:w-[300px] md:rounded-[4px] md:border md:border-[#262626] md:p-2 md:shadow-[0_20px_50px_rgba(0,0,0,0.5)] md:overflow-hidden md:pb-2
               `}
             >
-              {/* Mobile Header: Handle and Close Button */}
-              <div className="flex justify-between items-center mb-6 md:hidden">
-                <div className="w-10 h-10" /> {/* Spacer to center handle */}
-                <div className="w-9 h-1 bg-[#333] rounded-full" />
+              {/* Mobile Header: Centered Close Button */}
+              <div className="flex justify-center items-center mb-8 md:hidden">
                 <button 
                   onClick={() => setIsOpen(false)}
                   className="w-10 h-10 flex items-center justify-center bg-[#111] rounded-full text-neutral-500 hover:text-white transition-colors"
