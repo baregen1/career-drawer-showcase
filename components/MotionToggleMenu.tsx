@@ -8,7 +8,7 @@ import { ChevronUp, X } from "lucide-react";
 export default function MotionToggleMenu() {
   const [isOpen, setIsOpen] = useState(false);
   const { setting, setSetting } = useMotion();
-  const menuRef = useRef<HTMLDivElement>(null);
+  const menuRef.current = useRef<HTMLDivElement>(null);
 
   // Lock body scroll when open
   useEffect(() => {
@@ -82,8 +82,8 @@ export default function MotionToggleMenu() {
                 md:absolute md:bottom-full md:left-auto md:right-0 md:mb-4 md:w-[300px] md:rounded-[4px] md:border md:border-[#262626] md:p-2 md:shadow-[0_20px_50px_rgba(0,0,0,0.5)] md:overflow-hidden md:pb-2
               `}
             >
-              {/* Mobile Header: Right-aligned Close Button */}
-              <div className="flex justify-end items-center pt-2 pb-6 md:hidden">
+              {/* Mobile Header: Right-aligned Close Button nudged up slightly */}
+              <div className="flex justify-end items-center pt-0 pb-6 md:hidden">
                 <button 
                   onClick={() => setIsOpen(false)}
                   className="w-12 h-12 flex items-center justify-center bg-[#111] border border-[#222] rounded-full text-white shadow-lg active:scale-95 transition-transform"
