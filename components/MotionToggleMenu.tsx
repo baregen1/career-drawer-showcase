@@ -50,42 +50,63 @@ export default function MotionToggleMenu() {
 
       <AnimatePresence>
         {isOpen && (
-          <motion.div
-            initial={{ opacity: 0, y: 8, scale: 0.99 }}
-            animate={{ opacity: 1, y: 0, scale: 1 }}
-            exit={{ opacity: 0, y: 8, scale: 0.99 }}
-            transition={setting === "lofi" ? { duration: 0 } : { duration: 0.2, ease: [0.23, 1, 0.32, 1] }}
-            className="absolute bottom-full right-0 md:right-0 mb-4 w-[calc(100vw-48px)] max-w-[300px] bg-[#0a0a0a] border border-[#262626] rounded-[4px] z-[100] shadow-[0_20px_50px_rgba(0,0,0,0.5)] overflow-hidden"
-            style={{ right: "min(0px, calc(100vw - 324px))" }}
-          >
-            <div className="p-2 space-y-1">
-              {options.map((opt) => (
-                <button
-                  key={opt.id}
-                  onClick={() => {
-                    setSetting(opt.id);
-                    setIsOpen(false);
-                  }}
-                  className={`w-full text-left px-5 py-4 transition-all duration-200 relative group flex items-start border rounded-[2px] ${
-                    setting === opt.id 
-                      ? "bg-[#1a1a1a] border-[#333]" 
-                      : "bg-transparent border-transparent hover:bg-[#121212]"
-                  }`}
-                >
-                  <div className="flex-1">
-                    <div className="flex items-center justify-between">
-                      <span className="text-sm font-medium text-white tracking-tight">
-                        {opt.label}
-                      </span>
+          <>
+            {/* Backdrop for mobile */}
+            <motion.div
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              onClick={() => setIsOpen(false)}
+              className="fixed inset-0 bg-black/70 backdrop-blur-md z-[999] md:hidden"
+            />
+            
+            {/* Menu Container */}
+            <motion.div
+              initial={{ opacity: 0, y: "100%" }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: "100%" }}
+              variants={{
+                desktop: { opacity: 1, y: 0, scale: 1 },
+                mobile: { y: 0 }
+              }}
+              transition={setting === "lofi" ? { duration: 0 } : { type: "spring", damping: 30, stiffness: 300, mass: 0.8 }}
+              className={`
+                fixed bottom-0 left-0 right-0 bg-[#0a0a0a] border-t border-[#1c1c1c] rounded-t-[32px] z-[1000] p-6 pb-12
+                md:absolute md:bottom-full md:left-auto md:right-0 md:mb-4 md:w-[300px] md:rounded-[4px] md:border md:border-[#262626] md:p-2 md:shadow-[0_20px_50px_rgba(0,0,0,0.5)] md:overflow-hidden md:pb-2
+              `}
+            >
+              {/* Mobile Handle */}
+              <div className="w-9 h-1 bg-[#333] rounded-full mx-auto mb-6 md:hidden" />
+              
+              <div className="space-y-2 md:space-y-1">
+                {options.map((opt) => (
+                  <button
+                    key={opt.id}
+                    onClick={() => {
+                      setSetting(opt.id);
+                      setIsOpen(false);
+                    }}
+                    className={`w-full text-left px-5 py-4 transition-all duration-200 relative group flex items-start border rounded-[2px] md:rounded-[2px] ${
+                      setting === opt.id 
+                        ? "bg-[#1a1a1a] border-[#333]" 
+                        : "bg-[#111] md:bg-transparent border-transparent hover:bg-[#121212]"
+                    }`}
+                  >
+                    <div className="flex-1">
+                      <div className="flex items-center justify-between">
+                        <span className="text-sm font-medium text-white tracking-tight">
+                          {opt.label}
+                        </span>
+                      </div>
+                      <p className="text-neutral-500 text-[11px] leading-relaxed mt-0.5">
+                        {opt.description}
+                      </p>
                     </div>
-                    <p className="text-neutral-500 text-[11px] leading-relaxed mt-0.5">
-                      {opt.description}
-                    </p>
-                  </div>
-                </button>
-              ))}
-            </div>
-          </motion.div>
+                  </button>
+                ))}
+              </div>
+            </motion.div>
+          </>
         )}
       </AnimatePresence>
     </div>
