@@ -78,21 +78,21 @@ export default function MotionToggleMenu() {
               exit={{ opacity: 0, y: "100%" }}
               transition={setting === "lofi" ? { duration: 0 } : { type: "spring", damping: 30, stiffness: 300, mass: 0.8 }}
               className={`
-                fixed bottom-0 left-0 right-0 bg-[#0a0a0a] border-t border-[#1c1c1c] rounded-t-[32px] z-[1000] p-6 pb-12
+                fixed bottom-0 left-0 right-0 bg-[#0a0a0a] border-t border-[#1c1c1c] rounded-t-[32px] z-[1000] p-6 pb-16
                 md:absolute md:bottom-full md:left-auto md:right-0 md:mb-4 md:w-[300px] md:rounded-[4px] md:border md:border-[#262626] md:p-2 md:shadow-[0_20px_50px_rgba(0,0,0,0.5)] md:overflow-hidden md:pb-2
               `}
             >
-              {/* Mobile Header: Centered Close Button */}
-              <div className="flex justify-center items-center mb-8 md:hidden">
+              {/* Mobile Header: Centered Close Button with robust spacing */}
+              <div className="flex justify-center items-center pt-4 pb-8 md:hidden">
                 <button 
                   onClick={() => setIsOpen(false)}
-                  className="w-10 h-10 flex items-center justify-center bg-[#111] rounded-full text-neutral-500 hover:text-white transition-colors"
+                  className="w-12 h-12 flex items-center justify-center bg-[#111] border border-[#222] rounded-full text-white shadow-lg active:scale-95 transition-transform"
                 >
                   <X size={20} />
                 </button>
               </div>
               
-              <div className="space-y-2 md:space-y-1">
+              <div className="space-y-3 md:space-y-1">
                 {options.map((opt) => (
                   <button
                     key={opt.id}
@@ -100,10 +100,10 @@ export default function MotionToggleMenu() {
                       setSetting(opt.id);
                       setIsOpen(false);
                     }}
-                    className={`w-full text-left px-5 py-4 transition-all duration-200 relative group flex items-start border rounded-[2px] md:rounded-[2px] ${
+                    className={`w-full text-left px-6 py-5 transition-all duration-200 relative group flex items-start border rounded-[2px] md:rounded-[2px] ${
                       setting === opt.id 
                         ? "bg-[#1a1a1a] border-[#333]" 
-                        : "bg-[#111] md:bg-transparent border-transparent hover:bg-[#121212]"
+                        : "bg-[#111] md:bg-transparent border-[#1c1c1c] md:border-transparent hover:bg-[#121212]"
                     }`}
                   >
                     <div className="flex-1">
@@ -112,7 +112,7 @@ export default function MotionToggleMenu() {
                           {opt.label}
                         </span>
                       </div>
-                      <p className="text-neutral-500 text-[11px] leading-relaxed mt-0.5">
+                      <p className="text-neutral-500 text-[11px] leading-relaxed mt-1">
                         {opt.description}
                       </p>
                     </div>
