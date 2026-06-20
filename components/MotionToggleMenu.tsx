@@ -55,7 +55,8 @@ export default function MotionToggleMenu() {
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 8, scale: 0.99 }}
             transition={setting === "lofi" ? { duration: 0 } : { duration: 0.2, ease: [0.23, 1, 0.32, 1] }}
-            className="absolute bottom-full right-0 mb-4 w-[300px] bg-[#0a0a0a] border border-[#262626] rounded-[4px] z-[100] shadow-[0_20px_50px_rgba(0,0,0,0.5)] overflow-hidden"
+            className="absolute bottom-full right-0 md:right-0 mb-4 w-[calc(100vw-48px)] max-w-[300px] bg-[#0a0a0a] border border-[#262626] rounded-[4px] z-[100] shadow-[0_20px_50px_rgba(0,0,0,0.5)] overflow-hidden"
+            style={{ right: "min(0px, calc(100vw - 324px))" }}
           >
             <div className="p-2 space-y-1">
               {options.map((opt) => (
