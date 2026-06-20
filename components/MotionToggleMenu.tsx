@@ -3,7 +3,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useMotion } from "./MotionProvider";
-import { ChevronUp } from "lucide-react";
+import { ChevronUp, X } from "lucide-react";
 
 export default function MotionToggleMenu() {
   const [isOpen, setIsOpen] = useState(false);
@@ -65,18 +65,23 @@ export default function MotionToggleMenu() {
               initial={{ opacity: 0, y: "100%" }}
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: "100%" }}
-              variants={{
-                desktop: { opacity: 1, y: 0, scale: 1 },
-                mobile: { y: 0 }
-              }}
               transition={setting === "lofi" ? { duration: 0 } : { type: "spring", damping: 30, stiffness: 300, mass: 0.8 }}
               className={`
                 fixed bottom-0 left-0 right-0 bg-[#0a0a0a] border-t border-[#1c1c1c] rounded-t-[32px] z-[1000] p-6 pb-12
                 md:absolute md:bottom-full md:left-auto md:right-0 md:mb-4 md:w-[300px] md:rounded-[4px] md:border md:border-[#262626] md:p-2 md:shadow-[0_20px_50px_rgba(0,0,0,0.5)] md:overflow-hidden md:pb-2
               `}
             >
-              {/* Mobile Handle */}
-              <div className="w-9 h-1 bg-[#333] rounded-full mx-auto mb-6 md:hidden" />
+              {/* Mobile Header: Handle and Close Button */}
+              <div className="flex justify-between items-center mb-6 md:hidden">
+                <div className="w-10 h-10" /> {/* Spacer to center handle */}
+                <div className="w-9 h-1 bg-[#333] rounded-full" />
+                <button 
+                  onClick={() => setIsOpen(false)}
+                  className="w-10 h-10 flex items-center justify-center bg-[#111] rounded-full text-neutral-500 hover:text-white transition-colors"
+                >
+                  <X size={20} />
+                </button>
+              </div>
               
               <div className="space-y-2 md:space-y-1">
                 {options.map((opt) => (
