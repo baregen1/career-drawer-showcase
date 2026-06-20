@@ -48,7 +48,7 @@ export default function MotionToggleMenu() {
     <div className="relative font-sans" ref={menuRef}>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="flex items-center gap-2 text-xs uppercase tracking-wider text-neutral-400 hover:text-white transition-colors duration-200 relative -top-[2px]"
+        className="flex items-center gap-2 text-xs uppercase tracking-wider text-neutral-400 hover:text-white transition-colors duration-200 relative top-0 max-md:-top-[2px]"
       >
         <span>
           Motion: <span className="text-white font-medium">{setting === "hifi" ? "Hi-Fi" : "Lo-Fi"}</span>
