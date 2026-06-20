@@ -3,6 +3,8 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, ArrowLeft } from "lucide-react";
+import MotionToggle from "./MotionToggle";
+import { useMotion } from "./MotionProvider";
 
 interface Role {
   id: string;
@@ -20,6 +22,7 @@ export default function CareerDrawer({ role, onClose }: { role: Role | null; onC
   const [isLoading, setIsLoading] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const scrollContainerRef = useRef<HTMLDivElement>(null);
+  const { setting } = useMotion();
 
   // Reset view when role changes or drawer closes
   useEffect(() => {
@@ -34,10 +37,10 @@ export default function CareerDrawer({ role, onClose }: { role: Role | null; onC
     if (scrollContainerRef.current) {
       scrollContainerRef.current.scrollTo({
         top: 0,
-        behavior: "smooth",
+        behavior: setting === "lofi" ? "auto" : "smooth",
       });
     }
-  }, [view]);
+  }, [view, setting]);
 
   const handleScroll = (e: React.UIEvent<HTMLDivElement>) => {
     setIsScrolled(e.currentTarget.scrollTop > 10);
@@ -62,7 +65,7 @@ export default function CareerDrawer({ role, onClose }: { role: Role | null; onC
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
             onClick={onClose}
-            className="fixed inset-0 bg-black/80 backdrop-blur-md z-[500]"
+            className={`fixed inset-0 bg-black/80 z-[500] ${setting === "lofi" ? "" : "backdrop-blur-md"}`}
           />
           
           {/* Drawer */}
@@ -72,13 +75,13 @@ export default function CareerDrawer({ role, onClose }: { role: Role | null; onC
             initial={{ y: "100%" }}
             animate={{ y: 0 }}
             exit={{ y: "100%" }}
-            transition={{ type: "spring", damping: 30, stiffness: 300, mass: 0.8 }}
+            transition={setting === "lofi" ? { duration: 0 } : { type: "spring", damping: 30, stiffness: 300, mass: 0.8 }}
             className="fixed bottom-0 left-0 right-0 h-[92vh] bg-[#0a0a0a] border-t border-[#1e1e1e] rounded-t-[32px] z-[510] overflow-y-auto"
           >
             {/* Sticky Header with backdrop blur */}
             <div className={`sticky top-0 z-20 px-8 py-6 transition-all duration-500 border-b rounded-t-[32px] ${
               isScrolled 
-                ? "bg-[#0a0a0a]/80 backdrop-blur-md border-white/5" 
+                ? `bg-[#0a0a0a]/80 border-white/5 ${setting === "lofi" ? "" : "backdrop-blur-md"}` 
                 : "bg-transparent border-transparent"
             }`}>
               <div className="max-w-3xl mx-auto flex justify-between items-center">
@@ -142,9 +145,12 @@ export default function CareerDrawer({ role, onClose }: { role: Role | null; onC
                           >
                             Submit Application
                           </button>
-                          <p className="text-center text-[11px] text-[#444] mt-4 uppercase tracking-widest">
-                            Designed by Crossware in Ireland
-                          </p>
+                          <div className="flex flex-col items-center gap-6 mt-12">
+                            <MotionToggle />
+                            <p className="text-center text-[11px] text-[#444] uppercase tracking-widest">
+                              Designed by Crossware in Ireland
+                            </p>
+                          </div>
                         </div>
                       </div>
                     </motion.div>
@@ -216,6 +222,12 @@ export default function CareerDrawer({ role, onClose }: { role: Role | null; onC
                           </button>
                         </div>
                       </form>
+                      <div className="flex flex-col items-center gap-6 mt-12 pb-12">
+                        <MotionToggle />
+                        <p className="text-center text-[11px] text-[#444] uppercase tracking-widest">
+                          Designed by Crossware in Ireland
+                        </p>
+                      </div>
                     </motion.div>
                   )}
 
