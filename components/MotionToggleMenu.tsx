@@ -3,7 +3,7 @@
 import React, { useState, useRef, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { useMotion } from "./MotionProvider";
-import { ChevronUp, Check } from "lucide-react";
+import { ChevronUp } from "lucide-react";
 
 export default function MotionToggleMenu() {
   const [isOpen, setIsOpen] = useState(false);
@@ -57,7 +57,7 @@ export default function MotionToggleMenu() {
             transition={setting === "lofi" ? { duration: 0 } : { duration: 0.2, ease: [0.23, 1, 0.32, 1] }}
             className="absolute bottom-full right-0 mb-4 w-[300px] bg-[#0a0a0a] border border-[#262626] rounded-[4px] z-[100] shadow-[0_20px_50px_rgba(0,0,0,0.5)] overflow-hidden"
           >
-            <div className="py-1">
+            <div className="p-2 space-y-1">
               {options.map((opt) => (
                 <button
                   key={opt.id}
@@ -65,8 +65,10 @@ export default function MotionToggleMenu() {
                     setSetting(opt.id);
                     setIsOpen(false);
                   }}
-                  className={`w-full text-left px-5 py-4 transition-colors relative group flex items-start gap-4 ${
-                    setting === opt.id ? "bg-[#121212]" : "hover:bg-[#121212]"
+                  className={`w-full text-left px-5 py-4 transition-all duration-200 relative group flex items-start border rounded-[2px] ${
+                    setting === opt.id 
+                      ? "bg-[#1a1a1a] border-[#333]" 
+                      : "bg-transparent border-transparent hover:bg-[#121212]"
                   }`}
                 >
                   <div className="flex-1">
@@ -75,17 +77,9 @@ export default function MotionToggleMenu() {
                         {opt.label}
                       </span>
                     </div>
-                    <p className="text-neutral-500 text-[11px] leading-relaxed mt-0.5 max-w-[220px]">
+                    <p className="text-neutral-500 text-[11px] leading-relaxed mt-0.5">
                       {opt.description}
                     </p>
-                  </div>
-                  
-                  <div className="flex-shrink-0 mt-1">
-                    {setting === opt.id ? (
-                      <Check size={14} className="text-[#66bb99]" />
-                    ) : (
-                      <div className="w-3.5 h-3.5" />
-                    )}
                   </div>
                 </button>
               ))}
