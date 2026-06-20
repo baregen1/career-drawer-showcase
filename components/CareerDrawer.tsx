@@ -3,7 +3,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { X, ArrowLeft } from "lucide-react";
-import MotionToggle from "./MotionToggle";
 import { useMotion } from "./MotionProvider";
 
 interface Role {
@@ -146,7 +145,6 @@ export default function CareerDrawer({ role, onClose }: { role: Role | null; onC
                             Submit Application
                           </button>
                           <div className="flex flex-col items-center gap-6 mt-12">
-                            <MotionToggle />
                             <p className="text-center text-[11px] text-[#444] uppercase tracking-widest">
                               Designed by Crossware in Ireland
                             </p>
@@ -223,7 +221,6 @@ export default function CareerDrawer({ role, onClose }: { role: Role | null; onC
                         </div>
                       </form>
                       <div className="flex flex-col items-center gap-6 mt-12 pb-12">
-                        <MotionToggle />
                         <p className="text-center text-[11px] text-[#444] uppercase tracking-widest">
                           Designed by Crossware in Ireland
                         </p>

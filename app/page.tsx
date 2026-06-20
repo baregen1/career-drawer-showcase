@@ -3,6 +3,7 @@
 import { useState, useEffect, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import CareerDrawer from "@/components/CareerDrawer";
+import MotionToggleMenu from "@/components/MotionToggleMenu";
 
 const JOBS = [
   {
@@ -106,7 +107,7 @@ function CareersContent() {
   }, {} as Record<string, typeof JOBS>);
 
   return (
-    <div className="bg-[#0a0a0a] min-h-screen text-white pt-[80px] pb-[120px]">
+    <div className="bg-[#0a0a0a] min-h-screen text-white pt-[80px] pb-[160px]">
       <div className="max-w-[1440px] mx-auto px-6 md:px-[180px]">
         <header className="mb-16 pb-10 border-b border-[#1e1e1e]">
           <p className="text-[11px] uppercase tracking-[0.25em] text-[#6b6b6b] mb-4">Join the team</p>
@@ -148,6 +149,14 @@ function CareersContent() {
           ))}
         </div>
       </div>
+
+      <footer className="max-w-[1440px] mx-auto px-6 md:px-[180px] mt-24 py-12 border-t border-[#1e1e1e] flex flex-col md:flex-row justify-between items-center gap-8">
+        <div className="flex flex-col gap-2">
+          <p className="text-[11px] text-[#444] uppercase tracking-widest font-bold">Crossware Studios</p>
+          <p className="text-[10px] text-[#2a2a2a] uppercase tracking-[0.2em]">© 2026 Ireland</p>
+        </div>
+        <MotionToggleMenu />
+      </footer>
 
       <CareerDrawer role={selectedJob} onClose={closeDrawer} />
     </div>
